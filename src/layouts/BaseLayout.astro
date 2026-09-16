@@ -1,0 +1,177 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+
+		<style is:global>
+			body {
+				margin: 0;
+				font-family: system-ui, -apple-system, 'Hiragino Sans', sans-serif;
+				background: #f5f6f8;
+				color: #1e2a38;
+			}
+
+			.page-header {
+				padding: 2rem 1.5rem 1rem;
+				max-width: 720px;
+				margin: 0 auto;
+			}
+
+			.page-header h1 {
+				margin: 0 0 0.5rem;
+				font-size: 1.75rem;
+			}
+
+			.page-header .site-description {
+				margin: 0;
+				color: #555;
+				font-size: 0.95rem;
+			}
+
+			.page-header a {
+				color: #415a80;
+				text-decoration: none;
+				font-size: 0.85rem;
+			}
+
+			main {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 0 1.5rem 2rem;
+			}
+
+			.section-title {
+				font-size: 1.1rem;
+				margin: 2rem 0 1rem;
+				padding-bottom: 0.5rem;
+				border-bottom: 2px solid #d99a5b;
+			}
+
+			.card-list {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+
+			.card {
+				background: #fff;
+				border-radius: 8px;
+				padding: 1.25rem;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+			}
+
+			.card-category {
+				display: inline-block;
+				font-size: 0.75rem;
+				background: #e5eaf0;
+				color: #415a80;
+				padding: 0.15rem 0.6rem;
+				border-radius: 999px;
+				margin-bottom: 0.5rem;
+			}
+
+			.card-title {
+				margin: 0 0 0.5rem;
+				font-size: 1.1rem;
+			}
+
+			.card-title a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			.card-title a:hover {
+				text-decoration: underline;
+			}
+
+			.card-excerpt {
+				margin: 0 0 0.75rem;
+				font-size: 0.9rem;
+				color: #444;
+				line-height: 1.6;
+			}
+
+			.card-meta {
+				display: flex;
+				justify-content: space-between;
+				font-size: 0.8rem;
+				color: #888;
+				margin-bottom: 0.5rem;
+			}
+
+			.card-link {
+				font-size: 0.85rem;
+				color: #415a80;
+				text-decoration: none;
+			}
+
+			.card-link:hover {
+				text-decoration: underline;
+			}
+
+			.notice-box {
+				background: #eef1f5;
+				border-radius: 8px;
+				padding: 1rem 1.25rem;
+				font-size: 0.85rem;
+				color: #555;
+			}
+
+			.site-footer {
+				max-width: 720px;
+				margin: 0 auto;
+				padding: 1rem 1.5rem 2rem;
+				font-size: 0.75rem;
+				color: #999;
+			}
+
+			article.tip-body {
+				background: #fff;
+				border-radius: 8px;
+				padding: 1.5rem;
+				box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+				line-height: 1.8;
+			}
+
+			article.tip-body h2 {
+				font-size: 1.1rem;
+				margin-top: 1.5rem;
+			}
+
+			article.tip-body table {
+				width: 100%;
+				border-collapse: collapse;
+				margin: 1rem 0;
+				font-size: 0.9rem;
+			}
+
+			article.tip-body th,
+			article.tip-body td {
+				border: 1px solid #e0e0e0;
+				padding: 0.5rem 0.75rem;
+				text-align: left;
+			}
+
+			article.tip-body th {
+				background: #f5f6f8;
+			}
+		</style>
+	</body>
+</html>
