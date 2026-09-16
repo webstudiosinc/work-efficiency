@@ -1,0 +1,80 @@
+---
+export const prerender = false;
+
+import { env } from 'cloudflare:workers';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+type NewsItem = {
+  title: string;
+  excerpt: string;
+  sourceName: string;
+  sourceUrl: string;
+  category: string;
+  publishedAt: string;
+};
+
+const kv = env.NEWS_KV;
+
+let items: NewsItem[] = [];
+let lastUpdatedAt: string | null = null;
+
+if (kv) {
+  const stored = await kv.get<{ items: NewsItem[]; updatedAt: string }>('news:latest', 'json');
+  if (stored && Array.isArray(stored.items)) {
+    items = stored.items;
+    lastUpdatedAt = stored.updatedAt ?? null;
+  }
+}
+
+items.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+function formatDate(iso: string): string {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' });
+}
+---
+
+<BaseLayout title="ニュース | 業務効率化メモ">
+	<header class="page-header">
+		<a href="/">← トップに戻る</a>
+		<h1 style="margin-top: 0.75rem;">ニュース</h1>
+		<p class="site-description">
+			会計・勤怠・請求書などSaaSの新機能・更新情報を自動収集しています。
+		</p>
+		{lastUpdatedAt && (
+			<p style="font-size: 0.8rem; color: #999; margin-top: 0.5rem;">
+				最終更新：{new Date(lastUpdatedAt).toLocaleString('ja-JP')}
+			</p>
+		)}
+	</header>
+
+	<main>
+		{items.length === 0 ? (
+			<p class="notice-box">
+				まだ収集データがありません。収集ジョブが初回実行されるとここに表示されます。
+			</p>
+		) : (
+			<ul class="card-list">
+				{items.map((item) => (
+					<li class="card">
+						<span class="card-category">{item.category}</span>
+						<h3 class="card-title">{item.title}</h3>
+						<p class="card-excerpt">{item.excerpt}</p>
+						<div class="card-meta">
+							<span>{item.sourceName}</span>
+							<time datetime={item.publishedAt}>{formatDate(item.publishedAt)}</time>
+						</div>
+						<a class="card-link" href={item.sourceUrl} target="_blank" rel="noopener noreferrer">
+							元記事を読む →
+						</a>
+					</li>
+				))}
+			</ul>
+		)}
+	</main>
+
+	<footer class="site-footer">
+		<p>掲載記事は自動収集です。詳細は元記事をご確認ください。</p>
+	</footer>
+</BaseLayout>
