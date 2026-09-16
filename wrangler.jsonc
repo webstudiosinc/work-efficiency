@@ -1,0 +1,8 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "work-efficiency",
+  "compatibility_date": "2026-09-16",
+  "assets": {
+    "directory": "./dist"
+  }
+}
